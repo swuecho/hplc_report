@@ -30,7 +30,7 @@ sub read_file_to_array {
     };
 
     # annoying line feed between windows and linux
-    $document =~ s/(\012|\015\012?)/\012/g;
+    $document =~ s/(\012|\015\012?)/\n/g;
     my @lines = split '\n', $document;
     return @lines;
 }
