@@ -13,9 +13,9 @@ opendir( my $dh, '.' ) || die;
 while ( readdir $dh ) {
     my ( $name, $data ) = get_data_from_file($_) if /\.ars/;
     if ($name) {
-
         # the data rows
-        say( join ',', $name, map { $data->{ '"' . $_ . '"' } } @aminos );
+        say( join ',', $name,
+            map { $data->{ '"' . $_ . '"' } } @aminos );
     }
 }
 closedir $dh;
@@ -28,7 +28,6 @@ sub read_file_to_array {
           or die "could not open $file: $!";
         <$fh>;
     };
-
     # annoying line feed between windows and linux
     $document =~ s/(\012|\015\012?)/\012/g;
     my @lines = split '\n', $document;
@@ -45,7 +44,6 @@ sub get_sample_data {
     my @all_lines = @_;
     my $result;
     my @required_lines;
-
     # use a boolean to indicate the start and end
     my $process_line = 0;
     for my $line (@all_lines) {
@@ -59,11 +57,12 @@ sub get_sample_data {
     return $result;
 }
 
+
 sub get_data_from_file {
     my $file_name = shift;
     my @lines     = read_file_to_array($file_name);
-    my $name      = get_sample_name(@lines);
-    my $data      = get_sample_data(@lines);
+    my $name    = get_sample_name(@lines);
+    my $data = get_sample_data(@lines);
     return ( $name, $data );
 }
 
