@@ -24,13 +24,14 @@ sub read_file_to_array {
     my $file     = shift;
     my $document = do {
         local $/ = undef;
-        open my $fh, "<", $file
+        # crlf does not work
+        open my $fh, "<:crlf", $file
           or die "could not open $file: $!";
         <$fh>;
     };
 
     # annoying line feed between windows and linux
-    $document =~ s/(\012|\015\012?)/\n/g;
+     $document =~ s/(\012|\015\012?)/\n/g;
     my @lines = split '\n', $document;
     return @lines;
 }
